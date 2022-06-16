@@ -18,7 +18,7 @@
             android:text="--"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:textSize="28dp"
             tools:text="72" />
 
         <TextView
@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="heart rate"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -44,7 +45,7 @@
             android:layout_weight="1"
             android:text="--"
             android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textSize="28dp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="steps"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>
