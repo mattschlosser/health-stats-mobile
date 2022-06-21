@@ -16,13 +16,18 @@ class AddHeartRateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_heart_rate)
         val hc = HealthClient(this);
         val button = findViewById<Button>(R.id.addHeartRateButton)
+
         button.setOnClickListener {
+            it.isEnabled = false;
             val heartRate = findViewById<EditText>(R.id.heartRate);
             val hr =  heartRate.text.toString().toLongOrNull();
             if (hr != null) {
                 Log.i(TAG, "Heart rate is $hr");
                 GlobalScope.launch {
                     hc.recordCurrentHeartRate(hr)
+                    withContext(Dispatchers.Main) {
+                        finish()
+                    }
                 };
             } else {
                 Log.i(TAG, "Heart rate not found")
