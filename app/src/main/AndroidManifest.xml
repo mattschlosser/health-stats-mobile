@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthStats">
         <activity
+            android:name=".LoggerActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddHeartRateActivity"
             android:exported="false" />
         <activity
@@ -59,12 +62,13 @@
             android:exported="false"
             android:label="@string/service_name" />
 
-        <receiver android:name=".StartupReceiver"
-            android:exported="true"
-            android:enabled="true">
-
+        <receiver
+            android:name=".StartupReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

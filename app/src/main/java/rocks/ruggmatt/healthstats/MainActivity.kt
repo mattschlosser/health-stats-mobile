@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.logHeartRateButton).setOnClickListener {
-            val intent = Intent(this, AddHeartRateActivity::class.java);
-            startActivity(intent);
+            val modalBottomSheet = HeartDialogFragment();
+            modalBottomSheet.show(supportFragmentManager, HeartDialogFragment.TAG);
+//            val intent = Intent(this, AddHeartRateActivity::class.java);
+//            startActivity(intent);
         }
     }
 
