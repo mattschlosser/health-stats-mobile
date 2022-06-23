@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -62,25 +63,6 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
         focusInput()
     }
 
-    private fun watchForChanges() {
-
-         val bottomSheetCallback = object: BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        focusInput()
-                    }
-                }
-            }
-
-             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                 //
-             }
-        }
-        (dialog as BottomSheetDialog).behavior.addBottomSheetCallback(bottomSheetCallback)
-
-    }
-
     private fun addButtonListener() {
         val hc = HealthClient(binding.root.context);
         val view = binding.root;
@@ -110,6 +92,15 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     private fun focusInput() {
         binding.root.findViewById<EditText>(R.id.heartRate).also {
             it.requestFocus()
+            it.setOnEditorActionListener { _, actionId, _ ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE -> {
+                        binding.root.findViewById<Button>(R.id.addHeartRateButton).performClick()
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
     }
 

@@ -32,6 +32,7 @@
             android:maxLength="3"
             android:textSize="40sp"
             android:importantForAutofill="no"
+            android:imeOptions="actionDone"
             tools:ignore="DuplicateSpeakableTextCheck" />
 
         <Button
