@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -50,6 +51,7 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     ): View? {
 
         _binding = FragmentHeartDialogBinding.inflate(inflater, container, false)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return binding.root
 
     }
