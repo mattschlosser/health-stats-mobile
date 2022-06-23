@@ -19,17 +19,14 @@ import kotlinx.coroutines.withContext
 import rocks.ruggmatt.healthstats.databinding.FragmentHeartDialogBinding
 
 
-// TODO: Customize parameter argument names
-const val ARG_ITEM_COUNT = "item_count"
-
 /**
  *
  * A fragment that shows a list of items as a modal bottom sheet.
  *
  * You can show this modal bottom sheet from your activity like this:
- * <pre>
- *    HeartDialogFragment.newInstance(30).show(supportFragmentManager, "dialog")
- * </pre>
+ * ```kt
+ *    new HeartDialogFragment().show(supportFragmentManager, "dialog")
+ * ```
  */
 class HeartDialogFragment : BottomSheetDialogFragment() {
 
@@ -41,7 +38,7 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     private val button get() = binding.root.findViewById<Button>(R.id.addHeartRateButton)
     private val editText get() = binding.root.findViewById<EditText>(R.id.heartRate)
     companion object {
-        public const val TAG = "HeartDialogFragment";
+        const val TAG = "HeartDialogFragment";
     }
 
     override fun onCreateView(
