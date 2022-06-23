@@ -60,9 +60,9 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         addButtonListener()
         addEditTextListener()
-        super.onViewStateRestored(savedInstanceState)
         focusInput()
     }
 
