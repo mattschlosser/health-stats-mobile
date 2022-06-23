@@ -1,20 +1,25 @@
 package rocks.ruggmatt.healthstats
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethod
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import rocks.ruggmatt.healthstats.databinding.FragmentHeartDialogBinding
+
 
 // TODO: Customize parameter argument names
 const val ARG_ITEM_COUNT = "item_count"
@@ -49,9 +54,10 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        addButtonListener(view)
-        watchForChanges()
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        addButtonListener()
+        super.onViewStateRestored(savedInstanceState)
+        focusInput()
     }
 
     private fun watchForChanges() {
@@ -73,8 +79,9 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    private fun addButtonListener(view: View) {
+    private fun addButtonListener() {
         val hc = HealthClient(binding.root.context);
+        val view = binding.root;
         val button = view.findViewById<Button>(R.id.addHeartRateButton)
         button.setOnClickListener {
             it.isEnabled = false;
@@ -99,8 +106,8 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun focusInput() {
-        binding.root.findViewById<EditText>(R.id.heartRate).apply {
-            requestFocus()
+        binding.root.findViewById<EditText>(R.id.heartRate).also {
+            it.requestFocus()
         }
     }
 
