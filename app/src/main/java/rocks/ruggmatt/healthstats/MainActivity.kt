@@ -15,55 +15,53 @@ import androidx.health.connect.client.records.HeartRateSeries
 import androidx.health.connect.client.records.Steps
 import androidx.health.connect.client.records.Weight
 import androidx.health.platform.client.HealthDataService
+import rocks.ruggmatt.healthstats.utils.PermissionsManager
 
 private const val TAG = "Main";
 
 class MainActivity : AppCompatActivity() {
-    private val deviceManager: CompanionDeviceManager by lazy {
-        getSystemService(Context.COMPANION_DEVICE_SERVICE) as CompanionDeviceManager
-    }
 
-    private val requestPermissions = registerForActivityResult(HealthDataRequestPermissions()) {
-        permissionCallback(it)
-    }
-
-    private val permissions = setOf(
-        Permission.createReadPermission(Steps::class),
-        Permission.createWritePermission(Steps::class),
-        Permission.createReadPermission(HeartRateSeries::class),
-        Permission.createWritePermission(HeartRateSeries::class)
-    )
+    private val requestPermissions = registerForActivityResult(HealthDataRequestPermissions()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        startNotificationService()
+        setupButtons()
+    }
 
-            // Find only devices that match this request filter.
-         Log.i(TAG, "Creating notification service");
-         val intent = Intent(this, NotificationService::class.java)
-         startForegroundService(intent);
-        Log.i(TAG, "Requesting permissions")
+    private fun startNotificationService() {
+        Log.i(TAG, "Creating notification service");
+        val intent = Intent(this, NotificationService::class.java)
+        startForegroundService(intent);
+    }
+
+    private fun setupButtons() {
+        setupPermissionButton()
+        setupHeartRateButton()
+    }
+
+    private fun setupHeartRateButton() {
+        findViewById<Button>(R.id.logHeartRateButton).setOnClickListener {
+            openHeartRateSheet()
+        }
+    }
+
+    private fun setupPermissionButton() {
         findViewById<Button>(R.id.permissionButton).setOnClickListener {
             askForPermissionToHealthData()
         }
+    }
 
-        findViewById<Button>(R.id.logHeartRateButton).setOnClickListener {
-            val modalBottomSheet = HeartDialogFragment();
-            modalBottomSheet.show(supportFragmentManager, HeartDialogFragment.TAG);
-//            val intent = Intent(this, AddHeartRateActivity::class.java);
-//            startActivity(intent);
-        }
+    private fun openHeartRateSheet() {
+        val modalBottomSheet = HeartDialogFragment();
+        modalBottomSheet.show(supportFragmentManager, HeartDialogFragment.TAG);
     }
 
     private fun askForPermissionToHealthData() {
         Log.i(TAG, "Launching request for Permissions")
-        requestPermissions.launch(permissions);
+        requestPermissions.launch(PermissionsManager.permissions);
     }
 
-
-    private fun permissionCallback(permissions: Set<Permission>) {
-        // check which permissions were granted
-        Log.i(TAG, permissions.toString())
-    }
 
 }
