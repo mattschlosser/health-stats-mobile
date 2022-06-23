@@ -42,6 +42,8 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val button get() = binding.root.findViewById<Button>(R.id.addHeartRateButton)
+    private val editText get() = binding.root.findViewById<EditText>(R.id.heartRate)
     companion object {
         public const val TAG = "HeartDialogFragment";
     }
@@ -59,17 +61,29 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         addButtonListener()
+        addEditTextListener()
         super.onViewStateRestored(savedInstanceState)
         focusInput()
+    }
+
+    private fun addEditTextListener() {
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    button.performClick()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun addButtonListener() {
         val hc = HealthClient(binding.root.context);
         val view = binding.root;
-        val button = view.findViewById<Button>(R.id.addHeartRateButton)
         button.setOnClickListener {
             it.isEnabled = false;
-            val heartRate = view.findViewById<EditText>(R.id.heartRate);
+            val heartRate = editText
             val hr =  heartRate.text.toString().toLongOrNull();
             if (hr === null) {
                 Log.i(TAG, "Heart rate not found")
@@ -90,18 +104,7 @@ class HeartDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun focusInput() {
-        binding.root.findViewById<EditText>(R.id.heartRate).also {
-            it.requestFocus()
-            it.setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE -> {
-                        binding.root.findViewById<Button>(R.id.addHeartRateButton).performClick()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
+        editText.requestFocus()
     }
 
 
